@@ -1,0 +1,401 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Emotion Color Mapping</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            display: flex;
+            align-items: flex-start;
+            justify-content: center;
+            height: 100vh;
+            margin: 0;
+            padding: 20px;
+            background-color: #000;
+        }
+        h1, h2 {
+            margin: 5px 0;
+        }
+        .container {
+            display: flex;
+            flex-direction: column;
+            align-items: flex-start;
+            justify-content: center;
+            margin: 20px;
+            padding: 20px;
+            border: 1px solid #ccc;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0,0,0,0.1);
+            background-color: white;
+        }
+        .title-container {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            height: 300px; /* Adjust height as needed */
+            background-color: black;
+            color: white;
+        }
+        .slider-container, .dropdown-container, .preset-container {
+            margin: 10px 0;
+            width: 400px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .color-box {
+            width: 40px;
+            height: 40px;
+            border: 1px solid #000;
+        }
+        .result-color-box {
+            width: 200px;
+            height: 200px;
+            margin: 20px 0;
+            border: 1px solid #000;
+        }
+        .code-container {
+            margin-top: 20px;
+        }
+        .hidden {
+            display: none;
+        }
+        button {
+            padding: 10px 20px;
+            font-size: 16px;
+            cursor: pointer;
+            margin-right: 10px;
+        }
+        .palette {
+            display: flex;
+            flex-direction: column;
+            align-items: flex-start;
+            justify-content: center;
+            margin: 20px;
+            padding: 20px;
+            border: 1px solid #ccc;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0,0,0,0.1);
+            background-color: white;
+        }
+        .palette h2 {
+            margin-bottom: 20px;
+        }
+        .palette .circle-container {
+            display: flex;
+            align-items: center;
+        }
+        .palette .circle {
+            width: 50px;
+            height: 50px;
+            margin: 10px;
+            border: 2px solid #000;
+            border-radius: 50%;
+            background-color: #fff;
+        }
+        .palette .hex-code {
+            font-size: 12px;
+            margin-left: 10px;
+        }
+        .rotated-title {
+            font-size: 24px;
+            text-align: center;
+            transform: rotate(90deg);
+            white-space: nowrap;
+        }
+        .clear-button {
+            font-size: 12px;
+            padding: 5px 10px;
+            cursor: pointer;
+            background-color: #ddd;
+            border: 1px solid #999;
+            border-radius: 5px;
+        }
+    </style>
+</head>
+<body>
+    <div class="title-container">
+        <h1 class="rotated-title">감정과 색 매핑</h1>
+    </div>
+
+    <div class="container" id="emotion-settings">
+        <h2>1. 감정별 색상(Hue) 값을 설정하세요</h2>
+
+        <div class="preset-container">
+            <label for="joy-hue">기쁨 색상(Hue): </label>
+            <input type="range" id="joy-hue" name="joy-hue" min="0" max="360" value="0">
+            <div class="color-box" id="joy-color"></div>
+        </div>
+        <div class="preset-container">
+            <label for="anger-hue">분노 색상(Hue): </label>
+            <input type="range" id="anger-hue" name="anger-hue" min="0" max="360" value="30">
+            <div class="color-box" id="anger-color"></div>
+        </div>
+        <div class="preset-container">
+            <label for="sadness-hue">슬픔 색상(Hue): </label>
+            <input type="range" id="sadness-hue" name="sadness-hue" min="0" max="360" value="60">
+            <div class="color-box" id="sadness-color"></div>
+        </div>
+        <div class="preset-container">
+            <label for="surprise-hue">놀라움 색상(Hue): </label>
+            <input type="range" id="surprise-hue" name="surprise-hue" min="0" max="360" value="150">
+            <div class="color-box" id="surprise-color"></div>
+        </div>
+        <div class="preset-container">
+            <label for="fear-hue">공포 색상(Hue): </label>
+            <input type="range" id="fear-hue" name="fear-hue" min="0" max="360" value="240">
+            <div class="color-box" id="fear-color"></div>
+        </div>
+        <div class="preset-container">
+            <label for="love-hue">사랑 색상(Hue): </label>
+            <input type="range" id="love-hue" name="love-hue" min="0" max="360" value="280">
+            <div class="color-box" id="love-color"></div>
+        </div>
+        <button id="add-emotion">감정추가</button>
+    </div>
+
+    <div class="container">
+        <h2>2. 감정을 선택하고 결과를 확인하세요</h2>
+        <div class="dropdown-container">
+            <label for="emotion">감정 선택: </label>
+            <select id="emotion" name="emotion">
+                <option value="joy">기쁨</option>
+                <option value="anger">분노</option>
+                <option value="sadness">슬픔</option>
+                <option value="surprise">놀라움</option>
+                <option value="fear">공포</option>
+                <option value="love">사랑</option>
+            </select>
+        </div>
+        <div class="slider-container">
+            <label for="arousal">Sleepy</label>
+            <input type="range" id="arousal" name="arousal" min="-1" max="1" step="0.01" value="0">
+            Arousal
+        </div>
+        <div class="slider-container">
+            <label for="pleasure">Unpleasure</label>
+            <input type="range" id="pleasure" name="pleasure" min="-1" max="1" step="0.01" value="0">
+            Pleasure 
+        </div>
+        <div>
+            <button id="show-result">결과 확인</button>
+            <button id="save-palette">결과 팔레트에 저장</button>
+        </div>
+        <div id="result" class="hidden">
+            <div class="result-color-box" id="color-box"></div>
+            <div class="code-container">
+                <p>HSV: <span id="hsv-code"></span></p>
+                <p>RGB: <span id="rgb-code"></span></p>
+                <p>HEX: <span id="hex-code"></span></p>
+            </div>
+        </div>
+    </div>
+
+    <div class="palette">
+        <h2>오늘의 감정 팔레트</h2>
+        <div class="circle-container">
+            <div class="circle" id="circle1"></div>
+            <span class="hex-code" id="hex1"></span>
+        </div>
+        <div class="circle-container">
+            <div class="circle" id="circle2"></div>
+            <span class="hex-code" id="hex2"></span>
+        </div>
+        <div class="circle-container">
+            <div class="circle" id="circle3"></div>
+            <span class="hex-code" id="hex3"></span>
+        </div>
+        <div class="circle-container">
+            <div class="circle" id="circle4"></div>
+            <span class="hex-code" id="hex4"></span>
+        </div>
+        <div class="circle-container">
+            <div class="circle" id="circle5"></div>
+            <span class="hex-code" id="hex5"></span>
+        </div>
+        <div class="circle-container">
+            <div class="circle" id="circle6"></div>
+            <span class="hex-code" id="hex6"></span>
+        </div>
+        <button class="clear-button" id="clear-palette">팔레트 지우기</button>
+    </div>
+
+    <script>
+        const arousalSlider = document.getElementById('arousal');
+        const pleasureSlider = document.getElementById('pleasure');
+        const showResultButton = document.getElementById('show-result');
+        const savePaletteButton = document.getElementById('save-palette');
+        const clearPaletteButton = document.getElementById('clear-palette');
+        const resultContainer = document.getElementById('result');
+        const colorBox = document.getElementById('color-box');
+        const hsvCode = document.getElementById('hsv-code');
+        const rgbCode = document.getElementById('rgb-code');
+        const hexCode = document.getElementById('hex-code');
+        const emotionSelect = document.getElementById('emotion');
+        const addEmotionButton = document.getElementById('add-emotion');
+        const emotionSettingsContainer = document.getElementById('emotion-settings');
+
+        const huePresets = {
+            'joy': document.getElementById('joy-hue'),
+            'anger': document.getElementById('anger-hue'),
+            'sadness': document.getElementById('sadness-hue'),
+            'surprise': document.getElementById('surprise-hue'),
+            'fear': document.getElementById('fear-hue'),
+            'love': document.getElementById('love-hue')
+        };
+
+        const colorBoxes = {
+            'joy': document.getElementById('joy-color'),
+            'anger': document.getElementById('anger-color'),
+            'sadness': document.getElementById('sadness-color'),
+            'surprise': document.getElementById('surprise-color'),
+            'fear': document.getElementById('fear-color'),
+            'love': document.getElementById('love-color')
+        };
+
+        function setColorBox(hue, colorBox) {
+            const s = 1;
+            const v = 1;
+            const rgb = hsvToRgb(hue, s, v);
+            colorBox.style.backgroundColor = `rgb(${rgb[0]}, ${rgb[1]}, ${rgb[2]})`;
+        }
+
+        Object.keys(huePresets).forEach(emotion => {
+            huePresets[emotion].addEventListener('input', (event) => {
+                setColorBox(event.target.value, colorBoxes[emotion]);
+            });
+            setColorBox(huePresets[emotion].value, colorBoxes[emotion]);
+        });
+
+        emotionSelect.addEventListener('change', () => {
+            const selectedEmotion = emotionSelect.value;
+            if (huePresets[selectedEmotion]) {
+                hueSlider.value = huePresets[selectedEmotion].value;
+            }
+        });
+
+        function updateColor() {
+            const selectedEmotion = emotionSelect.value;
+            const h = huePresets[selectedEmotion] ? huePresets[selectedEmotion].value : 0;
+            const s = 0.15 + ((parseFloat(arousalSlider.value) + 1) / 2) * (1 - 0.15);
+            const v = 0.25 + ((parseFloat(pleasureSlider.value) + 1) / 2) * (1 - 0.25);
+            const rgb = hsvToRgb(h, s, v);
+            const hex = rgbToHex(rgb[0], rgb[1], rgb[2]);
+
+            colorBox.style.backgroundColor = `rgb(${rgb[0]}, ${rgb[1]}, ${rgb[2]})`;
+            hsvCode.textContent = `(${h}, ${s.toFixed(2)}, ${v.toFixed(2)})`;
+            rgbCode.textContent = `(${rgb[0]}, ${rgb[1]}, ${rgb[2]})`;
+            hexCode.textContent = hex;
+        }
+
+        function hsvToRgb(h, s, v) {
+            let r, g, b;
+            const i = Math.floor(h / 60);
+            const f = h / 60 - i;
+            const p = v * (1 - s);
+            const q = v * (1 - f * s);
+            const t = v * (1 - (1 - f) * s);
+
+            switch (i % 6) {
+                case 0: r = v; g = t; b = p; break;
+                case 1: r = q; g = v; b = p; break;
+                case 2: r = p; g = v; b = t; break;
+                case 3: r = p; g = q; b = v; break;
+                case 4: r = t; g = p; b = v; break;
+                case 5: r = v; g = p; b = q; break;
+            }
+
+            return [Math.round(r * 255), Math.round(g * 255), Math.round(b * 255)];
+        }
+
+        function rgbToHex(r, g, b) {
+            return `#${((1 << 24) + (r << 16) + (g << 8) + b).toString(16).slice(1).toUpperCase()}`;
+        }
+
+        addEmotionButton.addEventListener('click', () => {
+            const emotionName = prompt('새 감정의 이름을 입력하세요:');
+            if (emotionName) {
+                const lowerCaseEmotionName = emotionName.toLowerCase();
+                if (huePresets[lowerCaseEmotionName]) {
+                    alert('감정이 중복되었습니다. 다른 감정을 설정하세요.');
+                    return;
+                }
+
+                const newPresetContainer = document.createElement('div');
+                newPresetContainer.classList.add('preset-container');
+                
+                const newLabel = document.createElement('label');
+                newLabel.textContent = `${emotionName} 색상(Hue): `;
+                newPresetContainer.appendChild(newLabel);
+
+                const newSlider = document.createElement('input');
+                newSlider.type = 'range';
+                newSlider.min = '0';
+                newSlider.max = '360';
+                newSlider.value = '180';
+                newSlider.id = `${lowerCaseEmotionName}-hue`;
+                newPresetContainer.appendChild(newSlider);
+
+                const newColorBox = document.createElement('div');
+                newColorBox.classList.add('color-box');
+                newPresetContainer.appendChild(newColorBox);
+
+                emotionSettingsContainer.appendChild(newPresetContainer);
+
+                huePresets[lowerCaseEmotionName] = newSlider;
+                colorBoxes[lowerCaseEmotionName] = newColorBox;
+
+                setColorBox(newSlider.value, newColorBox);
+
+                newSlider.addEventListener('input', (event) => {
+                    setColorBox(event.target.value, newColorBox);
+                });
+
+                const newOption = document.createElement('option');
+                newOption.value = lowerCaseEmotionName;
+                newOption.textContent = emotionName;
+                emotionSelect.appendChild(newOption);
+            }
+        });
+
+        showResultButton.addEventListener('click', () => {
+            updateColor();
+            resultContainer.classList.remove('hidden');
+        });
+
+        savePaletteButton.addEventListener('click', () => {
+            const hex = hexCode.textContent;
+            if (!hex) return;
+
+            const circles = document.querySelectorAll('.circle');
+            const hexDisplays = document.querySelectorAll('.hex-code');
+
+            for (let i = 0; i < circles.length; i++) {
+                if (getComputedStyle(circles[i]).backgroundColor === 'rgb(255, 255, 255)') {
+                    circles[i].style.backgroundColor = colorBox.style.backgroundColor;
+                    hexDisplays[i].textContent = hex;
+                    break;
+                }
+            }
+        });
+
+        clearPaletteButton.addEventListener('click', () => {
+            const circles = document.querySelectorAll('.circle');
+            const hexDisplays = document.querySelectorAll('.hex-code');
+
+            for (let i = circles.length - 1; i >= 0; i--) {
+                if (getComputedStyle(circles[i]).backgroundColor !== 'rgb(255, 255, 255)') {
+                    circles[i].style.backgroundColor = 'rgb(255, 255, 255)';
+                    hexDisplays[i].textContent = '';
+                    break;
+                }
+            }
+        });
+
+        // Initialize with default emotion
+        emotionSelect.dispatchEvent(new Event('change'));
+    </script>
+</body>
+</html>
