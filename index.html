@@ -8,20 +8,23 @@
         body {
             font-family: Arial, sans-serif;
             display: flex;
-            align-items: flex-start;
-            justify-content: center;
+            flex-direction: column; /* 모바일 장치에서는 열 방향으로 배치 */
+            align-items: center; /* 모바일 장치에서 중앙 정렬 */
+            justify-content: flex-start;
             height: 100vh;
             margin: 0;
             padding: 20px;
             background-color: #000;
+            box-sizing: border-box;
         }
         h1, h2 {
             margin: 5px 0;
+            text-align: center;
         }
         .container {
             display: flex;
             flex-direction: column;
-            align-items: flex-start;
+            align-items: center; /* 모바일 장치에서 중앙 정렬 */
             justify-content: center;
             margin: 20px;
             padding: 20px;
@@ -29,18 +32,22 @@
             border-radius: 10px;
             box-shadow: 0 0 10px rgba(0,0,0,0.1);
             background-color: white;
+            width: 100%;
+            max-width: 500px; /* 최대 너비 설정 */
         }
         .title-container {
             display: flex;
             align-items: center;
             justify-content: center;
-            height: 300px; /* Adjust height as needed */
+            height: auto;
             background-color: black;
             color: white;
+            width: 100%;
+            max-width: 500px; /* 최대 너비 설정 */
         }
         .slider-container, .dropdown-container, .preset-container {
             margin: 10px 0;
-            width: 400px;
+            width: 100%;
             display: flex;
             justify-content: space-between;
             align-items: center;
@@ -66,7 +73,9 @@
             padding: 10px 20px;
             font-size: 16px;
             cursor: pointer;
-            margin-right: 10px;
+            margin: 5px;
+            width: calc(100% - 10px); /* 버튼 크기를 너비에 맞게 설정 */
+            box-sizing: border-box;
         }
         .palette {
             display: flex;
@@ -79,13 +88,20 @@
             border-radius: 10px;
             box-shadow: 0 0 10px rgba(0,0,0,0.1);
             background-color: white;
+            width: 100%;
+            max-width: 500px; /* 최대 너비 설정 */
         }
         .palette h2 {
             margin-bottom: 20px;
+            text-align: center;
+            width: 100%;
         }
         .palette .circle-container {
             display: flex;
             align-items: center;
+            width: 100%;
+            justify-content: center; /* 중앙 정렬 */
+            margin: 5px 0;
         }
         .palette .circle {
             width: 50px;
@@ -112,6 +128,21 @@
             background-color: #ddd;
             border: 1px solid #999;
             border-radius: 5px;
+        }
+        @media (min-width: 769px) {
+            body {
+                flex-direction: row;
+                align-items: flex-start;
+                justify-content: center;
+            }
+            .container {
+                flex: 1;
+                margin: 10px;
+            }
+            .palette {
+                flex: 1;
+                margin: 10px;
+            }
         }
     </style>
 </head>
