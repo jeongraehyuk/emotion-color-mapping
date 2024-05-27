@@ -8,7 +8,7 @@
         body {
             font-family: Arial, sans-serif;
             display: flex;
-            flex-direction: column;
+            flex-direction: column; /* Column layout for mobile */
             align-items: center;
             justify-content: flex-start;
             height: 100vh;
@@ -33,7 +33,7 @@
             box-shadow: 0 0 10px rgba(0,0,0,0.1);
             background-color: white;
             width: 100%;
-            max-width: 500px;
+            max-width: 500px; /* Maximum width for containers */
         }
         .title-container {
             display: flex;
@@ -88,7 +88,7 @@
             box-shadow: 0 0 10px rgba(0,0,0,0.1);
             background-color: white;
             width: 100%;
-            max-width: 500px;
+            max-width: 500px; /* Maximum width for palette */
         }
         .palette h2 {
             margin-bottom: 20px;
@@ -99,7 +99,7 @@
             display: flex;
             align-items: center;
             width: 100%;
-            justify-content: center;
+            justify-content: center; /* Center align circles */
             margin: 5px 0;
         }
         .palette .circle {
@@ -113,12 +113,6 @@
         .palette .hex-code {
             font-size: 12px;
             margin-left: 10px;
-        }
-        .rotated-title {
-            font-size: 24px;
-            text-align: center;
-            transform: rotate(90deg);
-            white-space: nowrap;
         }
         .clear-button {
             font-size: 12px;
@@ -147,7 +141,7 @@
 </head>
 <body>
     <div class="title-container">
-        <h1 class="rotated-title">감정과 색 매핑</h1>
+        <h1>감정과 색 매핑</h1>
     </div>
 
     <div class="container" id="emotion-settings">
